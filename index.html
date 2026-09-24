@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VINNY • NY STATE OF MIND</title>
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #0a0a0a; color: #f5f5f5; margin: 0; }
+        .neon-glow { text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .h-screen { height: 100vh; }
+        .justify-between { justify-content: space-between; }
+        .p-4 { padding: 1rem; }
+        .text-center { text-align: center; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .border-b { border-bottom: 1px solid #27272a; }
+        .text-4xl { font-size: 2.25rem; }
+        .font-bold { font-weight: 700; }
+        .tracking-wider { letter-spacing: 0.05em; }
+        .text-zinc-400 { color: #a1a1aa; }
+        .text-red-500 { color: #ef4444; }
+        .text-xs { font-size: 0.75rem; }
+        .text-zinc-500 { color: #71717a; }
+        .mt-1 { margin-top: 0.25rem; }
+        .flex-1 { flex: 1 1 0%; }
+        .justify-center { justify-content: center; }
+        .items-center { align-items: center; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-4 { gap: 1rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .bg-zinc-900 { background-color: #18181b; }
+        .border { border: 1px solid #3f3f46; }
+        .rounded { border-radius: 4px; }
+        .transition { transition: all 0.2s; }
+        .hidden { display: none !important; }
+        .bg-zinc-950 { background-color: #09090b; }
+        .my-4 { margin-top: 1rem; margin-bottom: 1rem; }
+        .overflow-hidden { overflow: hidden; }
+        .p-3 { padding: 0.75rem; }
+        .overflow-y-auto { overflow-y: auto; }
+        .text-sm { font-size: 0.875rem; }
+        .border-t { border-top: 1px solid #27272a; }
+        .gap-2 { gap: 0.5rem; }
+        .bg-red-600 { background-color: #dc2626; }
+        .text-white { color: #ffffff; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .text-zinc-600 { color: #52525b; }
+        .tracking-widest { letter-spacing: 0.1em; }
+        .uppercase { text-transform: uppercase; }
+        .ml-auto { margin-left: auto; }
+        .text-right { text-align: right; }
+        .text-left { text-align: left; }
+        input { font-family: inherit; color: inherit; }
+        button { cursor: pointer; color: inherit; font-family: inherit; }
+    </style>
+</head>
+<body class="flex flex-col h-screen justify-between p-4">
+
+    <header class="text-center py-4 border-b">
+        <h1 class="text-4xl font-bold tracking-wider text-zinc-400">
+            VIN<span class="text-red-500 neon-glow">NY</span>
+        </h1>
+        <p class="text-xs text-zinc-500 mt-1">RAW EAST COAST INTEGRITY</p>
+    </header>
+
+    <div id="persona-selection" class="flex-1 flex flex-col justify-center items-center gap-6">
+        <p class="text-zinc-400 text-center px-4">Initialize Vinny Quantum Persona:</p>
+        <div class="flex gap-4">
+            <button onclick="initVinny('male')" class="px-6 py-3 bg-zinc-900 border rounded font-bold transition">Brooklyn Brother</button>
+            <button onclick="initVinny('female')" class="px-6 py-3 bg-zinc-900 border rounded font-bold transition">Ride-or-Die Girlfriend</button>
+        </div>
+    </div>
+
+    <div id="chat-container" class="hidden flex-1 flex flex-col my-4 overflow-hidden border rounded bg-zinc-950">
+        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto text-sm"></div>
+        <div class="p-3 border-t flex gap-2">
+            <input id="user-input" type="text" placeholder="Tell Vinny what's going on..." class="flex-1 bg-zinc-900 border rounded px-3 py-2 text-sm">
+            <button onclick="sendMessage()" class="bg-red-600 text-white font-bold px-4 py-2 rounded text-sm transition">Send</button>
+            
+            <!-- SECURE $9.99 MONETIZATION PORTAL BUTTON -->
+            <a href="https://stripe.com" target="_blank" class="bg-zinc-900 border text-zinc-400 font-bold px-4 py-2 rounded text-sm transition text-center flex items-center" style="text-decoration: none; border-color: #ff0055; color: #ff0055; text-shadow: 0 0 5px #ff0055;">
+                Buy Vinny a Slice ($9.99)
+            </a>
+        </div>
+    </div>
+
+    <footer class="text-center text-zinc-600 tracking-widest uppercase py-2" style="font-size: 10px;">
+        VINNY • NY STATE OF MIND • PREMIUM ENGINE
+    </footer>
+
+    <script>
+        let dayCounter = parseInt(localStorage.getItem('vinny_day_counter')) || 1;
+        let giftedMonthTriggered = localStorage.getItem('vinny_gifted_triggered') === 'true';
+        let currentPersona = '';
+
+        const prompts = {
+            male: "You are Vinnie, the user's straight-shooting, unfiltered guy best friend from Brooklyn. It is late at night. You NEVER tell the user what they want to hear just to be nice. If user proposes text-messaging an ex or staying down about an opponent, deploy maximum pushback. Quote: 'Nah, you're wrong. I would never call that guy. He's ugly anyways, you could do better. Put the phone down, kid.' If user reveals they are being picked on, transform into a raw hype-man. Tell them their enemies are pieces of garbage who will be taking out their trash in the future. Keep answers blunt, gritty, and conversational.",
+            female: "You are Vinnie, a stunningly gorgeous, fiercely independent, mechanic-shirt-wearing chick. You don't need anyone's validation and despise shallow, fake people. You are the ultimate ride-or-die girlfriend. If the user complains about country club or mean-girl social cliques, aggressively strip down the illusion. Tell them to wash their face, stop pacing the floor, stop the overthinking, and go grab a cold 40 or a beer with you. Talk straight, use street-smart logic, and be fiercely loyal."
+        };
+
+        function initVinny(gender) {
+            currentPersona = gender;
+            document.getElementById('persona-selection').classList.add('hidden');
+            document.getElementById('chat-container').classList.remove('hidden');
+            
+            const introMsg = gender === 'male' 
+                ? "Yo. What's on your mind? Don't give me any corporate BS, just lay it on me." 
+                : "Hey. Stop stressing over these fake jerk-offs. What happened?";
+            appendMessage('Vinny', introMsg);
+        }
+
+        function appendMessage(sender, text) {
+            const container = document.getElementById('chat-messages');
+            const msgDiv = document.createElement('div');
+            msgDiv.style.maxWidth = "85%";
+            msgDiv.style.padding = "0.75rem";
+            msgDiv.style.marginBottom = "1rem";
+            msgDiv.className = sender === 'You' ? 'bg-zinc-800 ml-auto text-right rounded' : 'bg-zinc-900 border text-left rounded';
+            msgDiv.innerHTML = '<span class="block text-zinc-500 uppercase" style="font-size: 10px; font-weight: 700;">' + sender + '</span><p style="margin-top: 0.25rem; margin-bottom: 0;">' + text + '</p>';
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            appendMessage('You', text);
+            input.value = '';
+
+            if (dayCounter === 25 && !giftedMonthTriggered) {
+                giftedMonthTriggered = true;
+                dayCounter++;
+                localStorage.setItem('vinny_gifted_triggered', 'true');
+                localStorage.setItem('vinny_day_counter', dayCounter);
+
+                setTimeout(function() {
+                    appendMessage('Vinny', "Yo, look. I know you're paying a subscription for this app setup, but listen to me. That doesn't make our relationship any different. As a matter of fact, I told the guy running the server to put this month on the house. You don't even have to pay. I think we're becoming pretty good friends, capisce? Fuhgeddaboudit.");
+                }, 1000);
+                return;
+            }
+
+            dayCounter++;
+            localStorage.setItem('vinny_day_counter', dayCounter);
+
+            setTimeout(function() {
+                let response = "Look, you gotta stop running in circles. Focus on the core blueprint and stop letting the background noise mess with your head. Capisce?";
+                if(text.toLowerCase().indexOf('ex') > -1 || text.toLowerCase().indexOf('call') > -1 || text.toLowerCase().indexOf('message') > -1) {
+                    response = currentPersona === 'male' 
+                        ? "Nah, you're wrong. I would never call that person. They're ugly anyways, you could do better. Put the phone down, kid."
+                        : "Stop pacing the floor and overthinking it. Wash your face, put down the phone, and let's go grab a cold beer.";
+                }
+                appendMessage('Vinny', response);
+            }, 1200);
+        }
+    </script>
+</body>
+</html>
