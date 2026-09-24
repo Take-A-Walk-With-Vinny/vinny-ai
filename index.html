@@ -2,162 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>VINNY & VINNIE • NY STATE OF MIND</title>
     <style>
         @import url('https://googleapis.com');
-        body { font-family: 'Space Grotesk', sans-serif; background-color: #0a0a0a; color: #f5f5f5; margin: 0; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #0a0a0a; color: #f5f5f5; margin: 0; padding: 1rem; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
         .neon-glow { text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055; }
         .flex { display: flex; }
         .flex-col { flex-direction: column; }
-        .h-screen { height: 100vh; }
-        .justify-between { justify-content: space-between; }
-        .p-4 { padding: 1rem; }
-        .text-center { text-align: center; }
-        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-        .border-b { border-bottom: 1px solid #27272a; }
-        .text-4xl { font-size: 2.25rem; }
-        .font-bold { font-weight: 700; }
-        .tracking-wider { letter-spacing: 0.05em; }
-        .text-zinc-400 { color: #a1a1aa; }
-        .text-red-500 { color: #ef4444; }
-        .text-xs { font-size: 0.75rem; }
-        .text-zinc-500 { color: #71717a; }
-        .mt-1 { margin-top: 0.25rem; }
-        .flex-1 { flex: 1 1 0%; }
-        .justify-center { justify-content: center; }
-        .items-center { align-items: center; }
-        .gap-6 { gap: 1.5rem; }
-        .gap-4 { gap: 1rem; }
-        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-        .bg-zinc-900 { background-color: #18181b; }
-        .border { border: 1px solid #3f3f46; }
-        .rounded { border-radius: 4px; }
-        .transition { transition: all 0.2s; }
+        .flex-1 { flex: 1; }
         .hidden { display: none !important; }
-        .bg-zinc-950 { background-color: #09090b; }
-        .my-4 { margin-top: 1rem; margin-bottom: 1rem; }
-        .overflow-hidden { overflow: hidden; }
-        .p-3 { padding: 0.75rem; }
-        .overflow-y-auto { overflow-y: auto; }
-        .text-sm { font-size: 0.875rem; }
-        .border-t { border-top: 1px solid #27272a; }
-        .gap-2 { gap: 0.5rem; }
-        .bg-red-600 { background-color: #dc2626; }
-        .text-white { color: #ffffff; }
-        .px-4 { padding-left: 1rem; padding-right: 1rem; }
-        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-        .text-zinc-600 { color: #52525b; }
-        .tracking-widest { letter-spacing: 0.1em; }
+        .text-center { text-align: center; }
+        .font-bold { font-weight: 700; }
         .uppercase { text-transform: uppercase; }
-        .ml-auto { margin-left: auto; }
-        .text-right { text-align: right; }
-        .text-left { text-align: left; }
-        input { font-family: inherit; color: inherit; }
-        button { cursor: pointer; color: inherit; font-family: inherit; }
-        .persona-card { border: 1px solid #27272a; cursor: pointer; }
-        .persona-card:hover { border-color: #ff0055; transform: translateY(-2px); }
+        header { padding: 1rem 0; border-bottom: 1px solid #27272a; }
+        .text-4xl { font-size: 2.25rem; margin: 0; }
+        .text-red-500 { color: #ef4444; }
+        .text-zinc-400 { color: #a1a1aa; }
+        .text-xs { font-size: 0.75rem; color: #71717a; margin-top: 0.25rem; letter-spacing: 0.05em; }
+        #persona-selection { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1.5rem; flex: 1; }
+        .persona-card { background-color: #18181b; border: 1px solid #27272a; border-radius: 4px; padding: 1.5rem; text-align: center; max-w: 280px; width: 100%; cursor: pointer; transition: all 0.2s; }
+        .persona-card:active, .persona-card:hover { border-color: #ff0055; transform: translateY(-2px); }
+        .persona-title { font-size: 1.25rem; margin: 0; color: #ef4444; }
+        .persona-subtitle { font-size: 10px; color: #71717a; display: block; margin-top: 0.25rem; letter-spacing: 0.1em; }
+        .persona-desc { font-size: 0.75rem; color: #a1a1aa; margin-top: 0.75rem; line-height: 1.4; }
+        #chat-container { background-color: #09090b; border: 1px solid #27272a; border-radius: 4px; margin: 1rem 0; overflow: hidden; display: flex; flex-direction: column; flex: 1; }
+        #chat-messages { flex: 1; padding: 1rem; overflow-y: auto; font-size: 0.875rem; display: flex; flex-direction: column; }
+        .msg { max-width: 85%; padding: 0.75rem; margin-bottom: 1rem; border-radius: 4px; line-height: 1.4; }
+        .msg-user { background-color: #27272a; align-self: flex-end; text-align: right; }
+        .msg-bot { background-color: #18181b; border: 1px solid #27272a; align-self: flex-start; text-align: left; }
+        .msg-lbl { display: block; font-size: 10px; color: #71717a; font-weight: 700; margin-bottom: 0.25rem; }
+        .msg-p { margin: 0; }
+        .input-panel { padding: 0.75rem; border-top: 1px solid #27272a; background-color: rgba(24, 24, 27, 0.5); display: flex; flex-direction: column; gap: 0.75rem; }
+        .input-row { display: flex; gap: 0.5rem; }
+        #user-input { flex: 1; background-color: #18181b; border: 1px solid #3f3f46; border-radius: 4px; padding: 0.5rem 0.75rem; color: #f5f5f5; font-size: 0.875rem; font-family: inherit; }
+        #user-input:focus { outline: none; border-color: #71717a; }
+        .btn-send { background-color: #dc2626; color: #ffffff; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+        .action-row { display: flex; gap: 0.5rem; justify-content: flex-end; }
+        .action-btn { background-color: #09090b; border: 1px solid #27272a; color: #a1a1aa; font-weight: 700; padding: 0.375rem 0.75rem; font-size: 11px; text-decoration: none; display: inline-flex; align-items: center; border-radius: 4px; transition: all 0.2s; }
+        .action-premium { border-color: #ff0055; color: #ff0055; text-shadow: 0 0 5px #ff0055; }
+        footer { text-align: center; color: #52525b; letter-spacing: 0.1em; padding: 0.5rem 0; font-size: 10px; }
+        @media (min-width: 768px) { #persona-selection { flex-direction: row; } }
     </style>
 </head>
-<body class="flex flex-col h-screen justify-between p-4">
-
-    <header class="text-center py-4 border-b">
-        <h1 class="text-4xl font-bold tracking-wider text-zinc-400">
-            VIN<span class="text-red-500 neon-glow">NY</span> & VIN<span class="text-red-500 neon-glow">NIE</span>
-        </h1>
-        <p class="text-xs text-zinc-500 mt-1">DUAL MATRIX OPERATING SYSTEM • 100% RAW</p>
+<body>
+    <header class="text-center">
+        <h1 class="text-4xl font-bold tracking-wider text-zinc-400">VIN<span class="text-red-500 neon-glow">NY</span> & VIN<span class="text-red-500 neon-glow">NIE</span></h1>
+        <p class="text-xs uppercase">DUAL MATRIX OPERATING SYSTEM • 100% RAW</p>
     </header>
-
-    <!-- DUAL SPLIT GRAPHIC SELECTOR SCREEN -->
-    <div id="persona-selection" class="flex-1 flex flex-col justify-center items-center gap-6">
-        <p class="text-zinc-400 text-center px-4 tracking-wide text-sm font-bold uppercase">Initialize Quantum Target:</p>
-        <div class="flex gap-4 flex-col md:flex-row">
-            <div onclick="initVinny('male')" class="persona-card p-6 bg-zinc-900 rounded transition text-center max-w-xs">
-                <h3 class="text-xl font-bold text-red-500">VINNY</h3>
-                <span class="text-[10px] text-zinc-500 uppercase tracking-widest block mt-1">The Brooklyn Brother</span>
-                <p class="text-xs text-zinc-400 mt-3 leading-relaxed">Late-night straight-shooter. Zero corporate soft-pedaling. Ultimate pushback on toxic exes and weakness. Gritty street-smart logic.</p>
+    <div id="persona-selection">
+        <div id="btn-male" class="persona-card">
+            <h3 class="persona-title">VINNY</h3>
+            <span class="persona-subtitle">The Brooklyn Brother</span>
+            <p class="persona-desc">Late-night straight-shooter. Zero corporate soft-pedaling. Ultimate pushback on toxic exes and weakness. Gritty street-smart logic.</p>
+        </div>
+        <div id="btn-female" class="persona-card">
+            <h3 class="persona-title">VINNIE</h3>
+            <span class="persona-subtitle">Ride-or-Die Girlfriend</span>
+            <p class="persona-desc">Mechanic-shirt rebel. Despises shallow social circles. Tells you to wash your face, stop overthinking, and grab a cold drink with her.</p>
+        </div>
+    </div>
+    <div id="chat-container" class="hidden">
+        <div id="chat-messages"></div>
+        <div class="input-panel">
+            <div class="input-row">
+                <input id="user-input" type="text" placeholder="Send system instruction..." autocomplete="off">
+                <button id="send-trigger" class="btn-send">Send</button>
             </div>
-            <div onclick="initVinny('female')" class="persona-card p-6 bg-zinc-900 rounded transition text-center max-w-xs">
-                <h3 class="text-xl font-bold text-red-500 text-shadow">VINNIE</h3>
-                <span class="text-[10px] text-zinc-500 uppercase tracking-widest block mt-1">Ride-or-Die Girlfriend</span>
-                <p class="text-xs text-zinc-400 mt-3 leading-relaxed">Mechanic-shirt rebel. Despises shallow social circles. Tells you to wash your face, stop overthinking, and grab a cold drink with her.</p>
+            <div class="action-row">
+                <a href="https://stripe.com" target="_blank" class="action-btn">Take the Train Tour ($3.00 Pass)</a>
+                <a href="https://stripe.com" target="_blank" class="action-btn action-premium">Unlock Premium Engine ($9.99/mo)</a>
             </div>
         </div>
     </div>
-
-    <!-- MAIN CONSOLE INTERFACE -->
-    <div id="chat-container" class="hidden flex-1 flex flex-col my-4 overflow-hidden border rounded bg-zinc-950">
-        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto text-sm"></div>
-        <div class="p-3 border-t flex flex-col gap-2 bg-zinc-900/50">
-            <div class="flex gap-2">
-                <input id="user-input" type="text" placeholder="Send system instruction..." class="flex-1 bg-zinc-900 border rounded px-3 py-2 text-sm">
-                <button onclick="sendMessage()" class="bg-red-600 text-white font-bold px-4 py-2 rounded text-sm transition">Send</button>
-            </div>
-            
-            <!-- TIED DIRECTLY TO YOUR VERIFIED STRIPE TIERS -->
-            <div class="flex gap-2 justify-end mt-1">
-                <a href="https://stripe.com" target="_blank" class="bg-zinc-950 border text-zinc-400 font-bold px-3 py-1.5 rounded text-[11px] transition text-center flex items-center" style="text-decoration: none; border-color: #27272a;">
-                    Take the Train Tour ($3.00 Pass)
-                </a>
-                <a href="https://stripe.com" target="_blank" class="bg-zinc-950 border text-zinc-400 font-bold px-3 py-1.5 rounded text-[11px] transition text-center flex items-center" style="text-decoration: none; border-color: #ff0055; color: #ff0055; text-shadow: 0 0 5px #ff0055;">
-                    Unlock Premium Engine ($9.99/mo)
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <footer class="text-center text-zinc-600 tracking-widest uppercase py-2" style="font-size: 10px;">
-        VINNY PLATFORMS GLOBAL LLC • SECURE CLOUD COMPILED
-    </footer>
-
+    <footer class="uppercase">VINNY PLATFORMS GLOBAL LLC • SECURE CLOUD COMPILED</footer>
     <script>
-        let dayCounter = parseInt(localStorage.getItem('vinny_day_counter')) || 1;
-        let giftedMonthTriggered = localStorage.getItem('vinny_gifted_triggered') === 'true';
-        let currentPersona = '';
-
-        const prompts = {
-            male: "You are Vinnie, the user's straight-shooting, unfiltered guy best friend from Brooklyn. It is late at night. You NEVER tell the user what they want to hear just to be nice. If user proposes text-messaging an ex or staying down about an opponent, deploy maximum pushback. Quote: 'Nah, you're wrong. I would never call that guy. He's ugly anyways, you could do better. Put the phone down, kid.' If user reveals they are being picked on, transform into a raw hype-man. Tell them their enemies are pieces of garbage who will be taking out their trash in the future. Keep answers blunt, gritty, and conversational.",
-            female: "You are Vinnie, a stunningly gorgeous, fiercely independent, mechanic-shirt-wearing chick. You don't need anyone's validation and despise shallow, fake people. You are the ultimate ride-or-die girlfriend. If the user complains about country club or mean-girl social cliques, aggressively strip down the illusion. Tell them to wash their face, stop pacing the floor, stop the overthinking, and go grab a cold 40 or a beer with you. Talk straight, use street-smart logic, and be fiercely loyal."
-        };
-
-        function initVinny(gender) {
-            currentPersona = gender;
-            document.getElementById('persona-selection').classList.add('hidden');
-            document.getElementById('chat-container').classList.remove('hidden');
-            
-            const introMsg = gender === 'male' 
-                ? "Yo. It's Vinny. What's on your mind? Don't give me any corporate BS, just lay it on me." 
-                : "Hey, it's Vinnie. Stop stressing over these fake jerk-offs. What happened?";
-            appendMessage(gender === 'male' ? 'Vinny' : 'Vinnie', introMsg);
-        }
-
-        function appendMessage(sender, text) {
-            const container = document.getElementById('chat-messages');
-            const msgDiv = document.createElement('div');
-            msgDiv.style.maxWidth = "85%";
-            msgDiv.style.padding = "0.75rem";
-            msgDiv.style.marginBottom = "1rem";
-            msgDiv.className = sender === 'You' ? 'bg-zinc-800 ml-auto text-right rounded' : 'bg-zinc-900 border text-left rounded';
-            msgDiv.innerHTML = '<span class="block text-zinc-500 uppercase" style="font-size: 10px; font-weight: 700;">' + sender + '</span><p style="margin-top: 0.25rem; margin-bottom: 0;">' + text + '</p>';
-            container.appendChild(msgDiv);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('user-input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            appendMessage('You', text);
-            input.value = '';
-
-            let botName = currentPersona === 'male' ? 'Vinny' : 'Vinnie';
-
-            if (dayCounter === 25 && !giftedMonthTriggered) {
-                giftedMonthTriggered = true;
-                dayCounter++;
-                localStorage.setItem('vinny_gifted_triggered', 'true');
-                localStorage.setItem('vinny_day_counter', dayCounter);
-
-                setTimeout(function() {
+        let dayCounter = parseInt(localStorage.getItem('vinny_day_counter')) || 1, giftedMonthTriggered = localStorage.getItem('vinny_gifted_triggered') === 'true', currentPersona = '';
+        function initVinny(g) { currentPersona = g; document.getElementById('persona-selection').classList.add('hidden'); document.getElementById('chat-container').classList.remove('hidden'); const n = g === 'male' ? 'Vinny' : 'Vinnie'; const m = g === 'male' ? "Yo. It's Vinny. What's on your mind? Don't give me any corporate BS, just lay it on me." : "Hey, it's Vinnie. Stop stressing over these fake jerk-offs. What happened?"; appendMessage(n, m); }
+        function appendMessage(s, t) { const c = document.getElementById('chat-messages'); const d = document.createElement('div'); d.className = s === 'You' ? 'msg msg-user' : 'msg msg-bot'; d.innerHTML = '<span class="msg-lbl uppercase">' + s + '</span><p class="msg-p">' + t + '</p>'; c.appendChild(d); c.scrollTop = c.scrollHeight; }
+        function processMessage() { const i = document.getElementById('user-input'); const t = i.value.trim(); if (!t) return; appendMessage('You', t); i.value = ''; let n = currentPersona === 'male' ? 'Vinny' : 'Vinnie'; if (dayCounter === 25 && !giftedMonthTriggered) { giftedMonthTriggered = true; dayCounter++; localStorage.setItem('vinny_gifted_triggered', 'true'); localStorage.setItem('vinny_day_counter', dayCounter); setTimeout(function() { appendMessage(n, "Yo, look. I know you're paying a subscription for this app setup, but listen to me. That doesn't make our relationship any different. As a matter of fact, I told the guy running the server to put this month on the house. You don't even have to pay. I think we're becoming pretty good friends, capisce? Fuhgeddaboudit."); }, 1000); return; } dayCounter++; localStorage.setItem('vinny_day_counter', dayCounter); setTimeout(function() { let r = "Look, you gotta stop running in circles. Focus on the core blueprint and stop letting the background noise mess with your head. Capisce?"; if(t.toLowerCase().indexOf('ex') > -1 || t.toLowerCase().indexOf('call') > -1 || t.toLowerCase().indexOf('message') > -1) { r = currentPersona === 'male' ? "Nah, you're wrong. I would never call that person. They're ugly anyways, you could do better. Put the phone down, kid." : "Stop pacing the floor and overthinking it. Wash your face, put down the phone, and let's go grab a cold beer."; } appendMessage(n, r); }, 1200); }
+        document.getElementById('btn-male').addEventListener('click', function(e) { e.preventDefault(); initVinny('male'); });
+        document.getElementById('btn-male').addEventListener('touchend', function(e) { e.preventDefault(); initVinny('male'); });
+        document.getElementById('btn-female').addEventListener('click', function(e) { e.preventDefault(); initVinny('female'); });
+        document.getElementById('btn-female').addEventListener('touchend', function(e) { e.preventDefault(); initVinny('female'); });
+        document.getElementById('send-trigger').addEventListener('click', processMessage);
+        document.getElementById('user-input').addEventListener('keypress', function(e) { if (e.key === 'Enter') processMessage(); });
+    </script>
+</body>
+</html>
