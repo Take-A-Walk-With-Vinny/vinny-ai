@@ -7,93 +7,43 @@
     <style>
         @import url('https://googleapis.com');
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Space Grotesk', sans-serif; background-color: #060608; background-image: linear-gradient(rgba(239, 68, 68, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(239, 68, 68, 0.03) 1px, transparent 1px); background-size: 20px 20px; color: #f5f5f5; margin: 0; padding: 1rem; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
-        .neon-glow { text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #050507; background-image: linear-gradient(rgba(255, 0, 85, 0.04) 2px, transparent 2px), linear-gradient(90deg, rgba(255, 0, 85, 0.04) 2px, transparent 2px); background-size: 24px 24px; color: #f5f5f5; margin: 0; padding: 1rem; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
         .hidden { display: none !important; }
-        header { padding: 1.25rem 1rem; border: 2px solid #ef4444; border-radius: 6px; box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); background: #0c0c0f; text-align: center; }
+        header { padding: 1rem; border: 2px solid #ef4444; border-radius: 6px; box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); background: #0c0c0f; text-align: center; }
         .text-4xl { font-size: 2.25rem; margin: 0; font-weight: 700; color: #ffffff; letter-spacing: 0.05em; }
         .text-red-500 { color: #ff0055; }
         .text-xs { font-size: 0.75rem; color: #ff0055; margin-top: 0.25rem; letter-spacing: 0.2em; font-weight: bold; text-transform: uppercase; }
         #persona-selection { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1.5rem; flex: 1; }
-        .persona-card { background: linear-gradient(135deg, #0d0d11 0%, #141419 100%); border: 2px solid #27272a; border-radius: 8px; padding: 2.5rem 1.5rem; text-align: center; max-w: 290px; width: 100%; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; overflow: hidden; }
+        .persona-card { background: linear-gradient(135deg, #0d0d11 0%, #141419 100%); border: 2px solid #27272a; border-radius: 8px; padding: 2rem 1.5rem; text-align: center; max-w: 290px; width: 100%; cursor: pointer; transition: all 0.2s; box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; overflow: hidden; }
         .persona-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; }
         #btn-male::before { background: #ef4444; box-shadow: 0 2px 10px #ef4444; }
         #btn-female::before { background: #ff0055; box-shadow: 0 2px 10px #ff0055; }
         .persona-card:active { border-color: #ff0055; transform: scale(1.02); }
-        .persona-title { font-size: 1.65rem; margin: 0; font-weight: 700; letter-spacing: 0.05em; }
+        .persona-title { font-size: 1.5rem; margin: 0; font-weight: 700; }
         #btn-male .persona-title { color: #ef4444; }
         #btn-female .persona-title { color: #ff0055; }
         .persona-subtitle { font-size: 11px; color: #a1a1aa; display: block; margin-top: 0.35rem; letter-spacing: 0.15em; font-weight: bold; text-transform: uppercase; }
-        .persona-desc { font-size: 0.825rem; color: #e4e4e7; margin-top: 1.25rem; line-height: 1.5; text-align: left; border-top: 1px solid #27272a; padding-top: 0.85rem; }
+        .persona-desc { font-size: 0.8rem; color: #e4e4e7; margin-top: 1rem; line-height: 1.5; text-align: left; border-top: 1px solid #27272a; padding-top: 0.75rem; }
         #chat-container { background-color: #08080a; border: 2px solid #ff0055; box-shadow: 0 0 25px rgba(255,0,85,0.15); border-radius: 8px; margin: 1rem 0; overflow: hidden; display: flex; flex-direction: column; flex: 1; }
-        #chat-messages { flex: 1; padding: 1.25rem; overflow-y: auto; font-size: 0.9rem; display: flex; flex-direction: column; background: radial-gradient(circle at center, #0f0f13 0%, #050507 100%); }
-        .msg { max-width: 85%; padding: 0.9rem 1.1rem; margin-bottom: 1.25rem; border-radius: 6px; line-height: 1.5; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        #chat-messages { flex: 1; padding: 1rem; overflow-y: auto; font-size: 0.875rem; display: flex; flex-direction: column; background: radial-gradient(circle at center, #0f0f13 0%, #050507 100%); }
+        .msg { max-width: 85%; padding: 0.85rem 1rem; margin-bottom: 1rem; border-radius: 6px; line-height: 1.5; }
         .msg-user { background-color: #27272a; border-right: 4px solid #a1a1aa; align-self: flex-end; text-align: right; }
         .msg-bot { background-color: #141419; border-left: 4px solid #ff0055; align-self: flex-start; text-align: left; }
-        .msg-lbl { display: block; font-size: 10px; color: #71717a; font-weight: 700; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .msg-lbl { display: block; font-size: 10px; color: #71717a; font-weight: 700; margin-bottom: 0.25rem; text-transform: uppercase; }
         .msg-p { margin: 0; color: #f4f4f5; }
-        .input-panel { padding: 1.1rem; border-top: 2px solid #27272a; background-color: #0c0c0f; display: flex; flex-direction: column; gap: 0.85rem; }
-        .input-row { display: flex; gap: 0.65rem; }
-        #user-input { flex: 1; background-color: #141419; border: 2px solid #3f3f46; border-radius: 6px; padding: 0.8rem 1rem; color: #ffffff; font-size: 0.95rem; font-family: inherit; transition: border-color 0.2s; }
+        .input-panel { padding: 1rem; border-top: 2px solid #27272a; background-color: #0c0c0f; display: flex; flex-direction: column; gap: 0.75rem; }
+        .input-row { display: flex; gap: 0.5rem; }
+        #user-input { flex: 1; background-color: #141419; border: 2px solid #3f3f46; border-radius: 6px; padding: 0.75rem; color: #ffffff; font-size: 0.95rem; font-family: inherit; transition: border-color 0.2s; }
         #user-input:focus { outline: none; border-color: #ff0055; box-shadow: 0 0 10px rgba(255,0,85,0.2); }
         #user-input:disabled { background-color: #050507; border-color: #27272a; color: #52525b; cursor: not-allowed; }
-        .btn-send { background-color: #dc2626; color: #ffffff; border: none; padding: 0.5rem 1.5rem; border-radius: 6px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
-        .btn-send:hover { background-color: #ef4444; }
+        .btn-send { background-color: #dc2626; color: #ffffff; border: none; padding: 0.5rem 1.25rem; border-radius: 6px; font-size: 0.95rem; font-weight: 700; cursor: pointer; }
         .btn-send:disabled { background-color: #27272a; color: #52525b; cursor: not-allowed; }
-        .action-row { display: flex; gap: 0.65rem; justify-content: flex-end; flex-wrap: wrap; }
-        .action-btn { background-color: #141419; border: 2px solid #3f3f46; color: #ffffff; font-weight: 700; padding: 0.7rem 1.15rem; font-size: 12px; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; transition: transform 0.2s; }
-        .action-btn:active { transform: scale(0.98); }
+        .action-row { display: flex; gap: 0.5rem; justify-content: flex-end; flex-wrap: wrap; }
+        .action-btn { background-color: #141419; border: 2px solid #3f3f46; color: #ffffff; font-weight: 700; padding: 0.65rem 1rem; font-size: 12px; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; }
         .action-tour { border-color: #ef4444; box-shadow: 0 0 10px rgba(239,68,68,0.2); }
         .action-premium { border-color: #ff0055; color: #ff0055; text-shadow: 0 0 5px #ff0055; box-shadow: 0 0 10px rgba(255,0,85,0.2); }
-        #counter-display { font-size: 12px; color: #ff0055; font-weight: bold; margin-bottom: 0.35rem; text-align: left; letter-spacing: 0.05em; text-transform: uppercase; }
-        footer { text-align: center; color: #44444f; letter-spacing: 0.25em; padding: 0.5rem 0; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        #counter-display { font-size: 12px; color: #ff0055; font-weight: bold; margin-bottom: 0.25rem; text-align: left; }
+        footer { text-align: center; color: #44444f; letter-spacing: 0.2em; padding: 0.5rem 0; font-size: 10px; font-weight: bold; text-transform: uppercase; }
         @media (min-width: 480px) { #persona-selection { flex-direction: row; gap: 2rem; } }
     </style>
-</head><body>
-    <header>
-        <h1 class="text-4xl">VIN<span class="text-red-500 neon-glow">NY</span> & VIN<span class="text-red-500 neon-glow">NIE</span></h1>
-        <p class="text-xs">DUAL MATRIX OPERATING SYSTEM • 100% RAW</p>
-    </header>
-    <div id="persona-selection">
-        <div id="btn-male" class="persona-card">
-            <h3 class="persona-title">VINNY</h3>
-            <span class="persona-subtitle">The Brooklyn Brother</span>
-            <p class="persona-desc">Late-night straight-shooter. Zero corporate soft-pedaling. Ultimate pushback on toxic exes and weakness. Gritty street-smart logic.</p>
-        </div>
-        <div id="btn-female" class="persona-card">
-            <h3 class="persona-title">VINNIE</h3>
-            <span class="persona-subtitle">Ride-or-Die Girlfriend</span>
-            <p class="persona-desc">Mechanic-shirt rebel. Despises shallow social circles. Tells you to wash your face, stop overthinking, and grab a cold drink with her.</p>
-        </div>
-    </div>
-    <div id="chat-container" class="hidden">
-        <div id="chat-messages"></div>
-        <div class="input-panel">
-            <div id="counter-display">FREE CONSOLE ACCESS: 0 / 5 MESSAGES USED</div>
-            <div class="input-row">
-                <input id="user-input" type="text" placeholder="Type instruction here..." autocomplete="off">
-                <button id="send-trigger" class="btn-send">Send</button>
-            </div>
-            <div class="action-row">
-                <a href="https://stripe.com" target="_blank" class="action-btn action-tour">Take the Train Tour ($3.00 Pass)</a>
-                <a href="https://stripe.com" target="_blank" class="action-btn action-premium">Unlock Premium Engine ($9.99/mo)</a>
-            </div>
-        </div>
-    </div>
-    <footer>VINNY PLATFORMS GLOBAL LLC • SECURE CLOUD COMPILED</footer>
-    <script>
-        let messageCount = 0, currentPersona = '';
-        function initVinny(g) { currentPersona = g; document.getElementById('persona-selection').classList.add('hidden'); document.getElementById('chat-container').classList.remove('hidden'); const n = g === 'male' ? 'Vinny' : 'Vinnie'; const m = g === 'male' ? "Yo. It's Vinny. What's on your mind? Don't give me any corporate BS, just lay it on me." : "Hey, it's Vinnie. Stop stressing over these fake jerk-offs. What happened?"; appendMessage(n, m); updateCounter(); }
-        function appendMessage(s, t) { const c = document.getElementById('chat-messages'); const d = document.createElement('div'); d.className = s === 'You' ? 'msg msg-user' : 'msg msg-bot'; d.innerHTML = '<span class="msg-lbl">' + s + '</span><p class="msg-p">' + t + '</p>'; c.appendChild(d); c.scrollTop = c.scrollHeight; }
-        function updateCounter() { document.getElementById('counter-display').innerText = "FREE CONSOLE ACCESS: " + messageCount + " / 5 MESSAGES USED"; }
-        function processMessage() { if (messageCount >= 5) return; const i = document.getElementById('user-input'); const t = i.value.trim(); if (!t) return; appendMessage('You', t); i.value = ''; messageCount++; updateCounter(); let n = currentPersona === 'male' ? 'Vinny' : 'Vinnie'; if (messageCount >= 5) { document.getElementById('user-input').disabled = true; document.getElementById('send-trigger').disabled = true; document.getElementById('counter-display').innerText = "FREE ACCESS EXPIRED • PORTAL LOCKED"; setTimeout(function() { appendMessage(n, "Yo, your free pass just ran out. If you want to keep talking to me, click one of the links below. Take the $3.00 Train Tour pass or unlock the full engine for $9.99/mo."); }, 800); return; } setTimeout(function() { let r = "Look, you gotta stop running in circles. Focus on the core blueprint and stop letting the background noise mess with your head. Capisce?"; let txt = t.toLowerCase(); if(txt.includes('ex') || txt.includes('call') || txt.includes('message') || txt.includes('text') || txt.includes('tattoo') || txt.includes('girl')) { r = currentPersona === 'male' ? "Nah, you're wrong. I would never call that person. They're ugly anyways, you could do better. Put the phone down, kid." : "Stop pacing the floor and overthinking it. Wash your face, put down the phone, and let's go grab a cold beer."; } appendMessage(n, r); }, 1000); }
-        document.getElementById('btn-male').addEventListener('click', function(e) { e.preventDefault(); initVinny('male'); });
-        document.getElementById('btn-male').addEventListener('touchend', function(e) { e.preventDefault(); initVinny('male'); });
-        document.getElementById('btn-female').addEventListener('click', function(e) { e.preventDefault(); initVinny('female'); });
-        document.getElementById('btn-female').addEventListener('touchend', function(e) { e.preventDefault(); initVinny('female'); });
-        document.getElementById('send-trigger').addEventListener('click', processMessage);
-        document.getElementById('user-input').addEventListener('keypress', function(e) { if (e.key === 'Enter') processMessage(); });
-    </script>
-</body>
-</html>
-
+</head>
